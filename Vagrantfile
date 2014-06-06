@@ -19,4 +19,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         'recipe[test]'
     ] 
   end
+
+  config.vm.provider 'virtualbox' do |vb|
+    # we want more CPUs, and more RAM!
+    vb.customize ['modifyvm', :id, '--ioapic', 'on']
+    vb.customize ['modifyvm', :id, '--cpus', '4']
+    vb.customize ['modifyvm', :id, '--memory', '4096']
+
+    # allow the guest machine to access the internet through the host
+    vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+    vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
+  end
 end
